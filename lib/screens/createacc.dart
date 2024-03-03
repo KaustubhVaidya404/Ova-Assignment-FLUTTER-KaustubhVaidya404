@@ -1,3 +1,4 @@
+import 'package:chatlily/auth/auth_service.dart';
 import 'package:chatlily/components/cus_button.dart';
 import 'package:chatlily/components/cus_text_feild.dart';
 import 'package:chatlily/config/color_config.dart';
@@ -15,7 +16,22 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     void register() {
       // register using firebase
+      FireAuthService fireAuthService = FireAuthService();
+      if (_passwordController.text == _confirmPasswordController.text) {
+        fireAuthService
+            .signUp(_emailController.text, _passwordController.text)
+            .then((user) {
+          if (user != null) {
+            print("Account Created Successful");
+          } else {
+            print("Account Creation Failed");
+          }
+        });
+      } else {
+        print('Password donot match');
+      }
     }
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(

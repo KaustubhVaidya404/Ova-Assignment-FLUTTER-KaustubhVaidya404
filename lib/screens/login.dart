@@ -1,3 +1,4 @@
+import 'package:chatlily/auth/auth_service.dart';
 import 'package:chatlily/components/cus_button.dart';
 import 'package:chatlily/components/cus_text_feild.dart';
 import 'package:chatlily/config/color_config.dart';
@@ -14,6 +15,17 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     void login() {
       // login using firebase
+      final fireAuthService = FireAuthService();
+
+      fireAuthService
+          .signIn(_emailController.text, _passwordController.text)
+          .then((user) {
+        if (user != null) {
+          print("Login Successful");
+        } else {
+          print("Login Failed");
+        }
+      });
     }
 
     return Scaffold(
