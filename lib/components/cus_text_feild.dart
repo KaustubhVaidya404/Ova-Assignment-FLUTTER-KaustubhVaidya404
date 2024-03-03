@@ -27,7 +27,7 @@ class CusTextFeild extends StatelessWidget {
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
-          fillColor: Theme.of(context).colorScheme.secondary,
+          fillColor: Theme.of(context).colorScheme.tertiary,
           filled: true,
           hintText: hintText,
         ),

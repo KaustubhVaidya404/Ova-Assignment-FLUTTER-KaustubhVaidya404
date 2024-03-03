@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData(
-  colorScheme: ColorScheme.light(
-      background: Colors.grey.shade300,
-      primary: Colors.grey.shade500,
-      secondary: Colors.grey.shade200,
-      tertiary: Colors.white,
-      inversePrimary: Colors.grey.shade900),
-);
+    colorScheme: const ColorScheme.light(
+  background: Color.fromRGBO(241, 234, 255, 1),
+  primary: Color.fromRGBO(229, 212, 255, 1),
+  secondary: Color.fromRGBO(220, 191, 255, 1),
+  tertiary: Colors.white,
+  inversePrimary: Color.fromRGBO(102, 25, 197, 1),
+));
