@@ -1,3 +1,4 @@
+import 'package:chatlily/components/chat_bubble.dart';
 import 'package:chatlily/components/cus_text_feild.dart';
 import 'package:chatlily/fireservices/auth/auth_service.dart';
 import 'package:chatlily/fireservices/chats/chats.dart';
@@ -15,14 +16,19 @@ class ChatPage extends StatelessWidget {
   final FireAuthService _authService = FireAuthService();
 
   void sendMessage() {
-    _chatService.sendMessage(_messageController.text, receiverId);
+    if (_messageController.text.isNotEmpty) {
+      _chatService.sendMessage(_messageController.text, receiverId);
+    }
     _messageController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        elevation: 0,
         title: Text(receiverEmail),
       ),
       body: Column(children: [
@@ -57,19 +63,33 @@ class ChatPage extends StatelessWidget {
   Widget _messageTile(message) {
     Map<String, dynamic> data = message.data() as Map<String, dynamic>;
 
-    return Text(data['message']);
+    bool isCurrentUser = data['senderID'] == _authService.getCurrentUser()!.uid;
+
+    var alignment =
+        isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
+
+    return Container(
+        alignment: alignment,
+        child:
+            ChatBubble(message: data['message'], isCurrentUser: isCurrentUser));
   }
 
   Widget _userInp() {
-    return Row(
-      children: [
-        Expanded(
-            child: CusTextFeild(
-                hintText: "Enter message",
-                obscureTexInpt: false,
-                controller: _messageController)),
-        IconButton(onPressed: sendMessage, icon: const Icon(Icons.send))
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: Row(
+        children: [
+          Expanded(
+              child: CusTextFeild(
+                  hintText: "Enter message",
+                  obscureTexInpt: false,
+                  controller: _messageController)),
+          Container(
+              decoration: const BoxDecoration(shape: BoxShape.circle),
+              child: IconButton(
+                  onPressed: sendMessage, icon: const Icon(Icons.send)))
+        ],
+      ),
     );
   }
 }
