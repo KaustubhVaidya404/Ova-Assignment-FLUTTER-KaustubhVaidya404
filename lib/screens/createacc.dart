@@ -1,7 +1,8 @@
-import 'package:chatlily/auth/auth_service.dart';
+import 'package:chatlily/fireservices/auth/auth_service.dart';
 import 'package:chatlily/components/cus_button.dart';
 import 'package:chatlily/components/cus_text_feild.dart';
 import 'package:chatlily/config/color_config.dart';
+import 'package:chatlily/screens/home_page.dart';
 import 'package:chatlily/screens/login.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,8 @@ class RegisterPage extends StatelessWidget {
             .then((user) {
           if (user != null) {
             print("Account Created Successful");
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (builder) => HomePage()));
           } else {
             print("Account Creation Failed");
           }

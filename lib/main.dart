@@ -1,4 +1,4 @@
-import 'package:chatlily/auth/auth_state.dart';
+import 'package:chatlily/fireservices/auth/auth_state.dart';
 import 'package:chatlily/firebase_options.dart';
 import 'package:chatlily/theme/light_theme.dart';
 import 'package:firebase_core/firebase_core.dart';

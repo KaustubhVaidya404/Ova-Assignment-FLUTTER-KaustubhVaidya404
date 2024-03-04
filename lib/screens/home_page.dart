@@ -1,8 +1,15 @@
-import 'package:chatlily/auth/auth_service.dart';
+import 'package:chatlily/components/user_tile.dart';
+import 'package:chatlily/fireservices/auth/auth_service.dart';
+import 'package:chatlily/components/cus_drawer.dart';
+import 'package:chatlily/fireservices/chats/chats.dart';
+import 'package:chatlily/screens/chat_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  FireAuthService fireAuthService = FireAuthService();
+  ChatService chatService = ChatService();
 
   @override
   Widget build(BuildContext context) {
@@ -20,25 +27,42 @@ class HomePage extends StatelessWidget {
               fontSize: 35),
         ),
       ),
-      drawer: Drawer(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        child: ListView(
-          children: [
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-              leading: const Icon(Icons.logout),
-              title: const Text(
-                "Sign out",
-                style: TextStyle(fontSize: 15),
-              ),
-              onTap: () {
-                FireAuthService fireAuthService = FireAuthService();
-                fireAuthService.signOut();
-              },
-            )
-          ],
-        ),
-      ),
+      drawer: const CusDrawer(),
+      body: StreamBuilder(
+          stream: chatService.getUser(),
+          builder: (context, snapshots) {
+            if (snapshots.hasError) {
+              const Text('Error');
+            }
+            if (snapshots.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return ListView(
+              children: snapshots.data!
+                  .map<Widget>((userData) => _userList(userData, context))
+                  .toList(),
+            );
+          }),
     );
+  }
+
+  Widget _userList(Map<String, dynamic> user, BuildContext context) {
+    if (user['email'] != fireAuthService.getCurrentUser()!.email) {
+      return UserTile(
+        text: user['email'],
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChatPage(
+                        receiverId: user['email'],
+                      )));
+        },
+      );
+    } else {
+      return const SizedBox();
+    }
   }
 }

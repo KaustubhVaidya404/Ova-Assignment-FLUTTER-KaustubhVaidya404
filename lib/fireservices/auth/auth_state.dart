@@ -1,4 +1,4 @@
-import 'package:chatlily/auth/user_account_state.dart';
+import 'package:chatlily/fireservices/auth/user_account_state.dart';
 import 'package:chatlily/screens/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class AuthState extends StatelessWidget {
             if (user == null) {
               return const AccountState();
             } else {
-              return const HomePage();
+              return HomePage();
             }
           } else {
             return const Scaffold(

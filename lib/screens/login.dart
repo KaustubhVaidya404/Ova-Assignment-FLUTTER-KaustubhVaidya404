@@ -1,4 +1,4 @@
-import 'package:chatlily/auth/auth_service.dart';
+import 'package:chatlily/fireservices/auth/auth_service.dart';
 import 'package:chatlily/components/cus_button.dart';
 import 'package:chatlily/components/cus_text_feild.dart';
 import 'package:chatlily/config/color_config.dart';
