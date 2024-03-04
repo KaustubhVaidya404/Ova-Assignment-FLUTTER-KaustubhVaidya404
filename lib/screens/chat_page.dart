@@ -1,6 +1,7 @@
 import 'package:chatlily/components/chat_bubble.dart';
 import 'package:chatlily/components/cus_text_feild.dart';
 import 'package:chatlily/fireservices/auth/auth_service.dart';
+import 'package:chatlily/fireservices/chats/chat_service.dart';
 import 'package:chatlily/fireservices/chats/chats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -18,7 +19,10 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
   ScrollController _scrollController = ScrollController();
 
+  String? response;
+
   final ChatService _chatService = ChatService();
+  final AiService _aiService = AiService();
 
   final FireAuthService _authService = FireAuthService();
 
@@ -54,9 +58,21 @@ class _ChatPageState extends State<ChatPage> {
     super.dispose();
   }
 
-  void sendMessage() {
-    if (_messageController.text.isNotEmpty) {
+  void sendMessage(String aiResponse) {
+    if (aiResponse.isNotEmpty) {
+      _chatService.sendMessage(aiResponse, widget.receiverId);
+    } else if (_messageController.text.isNotEmpty) {
       _chatService.sendMessage(_messageController.text, widget.receiverId);
+    }
+    _messageController.clear();
+  }
+
+  void aiAssist() async {
+    if (_messageController.text.isNotEmpty) {
+      response = await _aiService.promptRequest(_messageController.text);
+      sendMessage(response!);
+      // _messageController.text = response!;
+      print(response);
     }
     _messageController.clear();
   }
@@ -129,7 +145,26 @@ class _ChatPageState extends State<ChatPage> {
           Container(
               decoration: const BoxDecoration(shape: BoxShape.circle),
               child: IconButton(
-                  onPressed: sendMessage, icon: const Icon(Icons.send)))
+                  onPressed: aiAssist, icon: const Icon(Icons.rocket))),
+          Container(
+              decoration: const BoxDecoration(shape: BoxShape.circle),
+              child: IconButton(
+                  onPressed: () {
+                    sendMessage;
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                                title: const Text("Lily is here to help"),
+                                content: Text(response ?? ""),
+                                actions: <Widget>[
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("Close"))
+                                ]));
+                  },
+                  icon: const Icon(Icons.send)))
         ],
       ),
     );
