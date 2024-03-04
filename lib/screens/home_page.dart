@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
               fontSize: 35),
         ),
       ),
-      drawer: const CusDrawer(),
+      drawer: CusDrawer(),
       body: StreamBuilder(
           stream: chatService.getUser(),
           builder: (context, snapshots) {
