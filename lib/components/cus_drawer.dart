@@ -1,11 +1,10 @@
 import 'package:chatlily/fireservices/auth/auth_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CusDrawer extends StatelessWidget {
   CusDrawer({super.key});
 
-  String? user = FireAuthService().getCurrentUser()!.email;
+  String? user = FireAuthService().getCurrentUser()!.email!.split('@')[0];
 
   @override
   Widget build(BuildContext context) {
@@ -53,3 +52,5 @@ class CusDrawer extends StatelessWidget {
     );
   }
 }
+
+
