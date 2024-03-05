@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "517506990741",
+    "project_id": "chatlilyassignment",
+    "storage_bucket": "chatlilyassignment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517506990741:android:d279e6a43d1b988484d19c",
+        "android_client_info": {
+          "package_name": "com.example.chatlily"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE4AWKuvl-Sx0zJy9JhOgys56yoj27Iys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
