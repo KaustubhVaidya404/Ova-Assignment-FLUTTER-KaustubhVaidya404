@@ -58,21 +58,20 @@ class _ChatPageState extends State<ChatPage> {
     super.dispose();
   }
 
-  void sendMessage(String aiResponse) {
-    if (aiResponse.isNotEmpty) {
-      _chatService.sendMessage(aiResponse, widget.receiverId);
-    } else if (_messageController.text.isNotEmpty) {
-      _chatService.sendMessage(_messageController.text, widget.receiverId);
+  void sendMessage(String message) {
+    if (message.isNotEmpty) {
+      _chatService.sendMessage(message, widget.receiverId);
     }
+    // _chatService.sendMessage(_messageController.text, widget.receiverId);
+
     _messageController.clear();
   }
 
-  void aiAssist() async {
-    if (_messageController.text.isNotEmpty) {
-      response = await _aiService.promptRequest(_messageController.text);
-      sendMessage(response!);
-      // _messageController.text = response!;
-      print(response);
+  void aiAssist(String message) async {
+    if (message.isNotEmpty) {
+      response = await _aiService.promptRequest(message);
+      //print(response);
+      //_chatService.sendMessage(response!, widget.receiverId);
     }
     _messageController.clear();
   }
@@ -145,25 +144,34 @@ class _ChatPageState extends State<ChatPage> {
           Container(
               decoration: const BoxDecoration(shape: BoxShape.circle),
               child: IconButton(
-                  onPressed: aiAssist, icon: const Icon(Icons.rocket))),
+                  onPressed: () async {
+                    aiAssist(_messageController.text);
+                    await showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      _chatService.sendMessage(
+                                          response!, widget.receiverId);
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Generate')),
+                                TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text("Close"))
+                              ],
+                              title: const Text("AI Response"),
+                              content: response != null 
+                                  ? Text(response!)
+                                  : const Text("No response yet!"),
+                            ));
+                  },
+                  icon: const Icon(Icons.rocket))),
           Container(
               decoration: const BoxDecoration(shape: BoxShape.circle),
               child: IconButton(
-                  onPressed: () {
-                    sendMessage;
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                                title: const Text("Lily is here to help"),
-                                content: Text(response ?? ""),
-                                actions: <Widget>[
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text("Close"))
-                                ]));
-                  },
+                  onPressed: () => sendMessage(_messageController.text),
                   icon: const Icon(Icons.send)))
         ],
       ),

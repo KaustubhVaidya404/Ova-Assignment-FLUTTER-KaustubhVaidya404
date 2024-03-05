@@ -21,7 +21,7 @@ class AiService {
             AiMessage(
                 role: "user",
                 content:
-                    "improve or draft the message for sending to someone - $prompt")
+                    "improve the message for sending to someone - $prompt")
           ],
           maxTokens: 150);
       if (prompt.isEmpty) {
@@ -33,7 +33,7 @@ class AiService {
         body: requestModel.toJson(),
       );
       ResponseModel responseModel = ResponseModel.fromResponse(response);
-      // print(responseModel.choices?[0].message?.content);
+      //print(responseModel.choices?[0].message?.content);
       return responseModel.choices?[0].message?.content;
     } catch (e) {
       print(e);
