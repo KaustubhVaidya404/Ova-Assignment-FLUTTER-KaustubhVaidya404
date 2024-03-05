@@ -35,6 +35,7 @@ class FireAuthService {
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
         "uid": userCredential.user!.uid,
         "email": userCredential.user!.email,
+        "name":  userCredential.user!.email!.split('@')[0],
       });
 
       return userCredential.user;
