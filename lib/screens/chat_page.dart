@@ -83,7 +83,7 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
-        title: Text(widget.receiverEmail),
+        title: Text(widget.receiverEmail.split('@').first),
       ),
       body: Column(children: [
         Expanded(child: _messageList()),
