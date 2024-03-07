@@ -1,8 +1,7 @@
-# Chat Application
+# Chat Lily
 
 This repository contains the code for an advanced Chat Application. The application facilitates real-time text messaging with machine learning-based input enhancement. Additionally, it supports WebRTC video calling.
 
-![Application Screenshot](Insert the screenshot of your app)
 
 ## Project Overview
 
