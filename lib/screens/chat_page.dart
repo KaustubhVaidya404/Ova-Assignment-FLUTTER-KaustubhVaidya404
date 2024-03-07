@@ -3,8 +3,11 @@ import 'package:chatlily/components/cus_text_feild.dart';
 import 'package:chatlily/fireservices/auth/auth_service.dart';
 import 'package:chatlily/fireservices/chats/chat_service.dart';
 import 'package:chatlily/fireservices/chats/chats.dart';
+import 'package:chatlily/screens/video_call_page.dart';
+import 'package:chatlily/webrtcservices/signaling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 class ChatPage extends StatefulWidget {
   final String receiverEmail;
@@ -23,13 +26,14 @@ class _ChatPageState extends State<ChatPage> {
 
   final ChatService _chatService = ChatService();
   final AiService _aiService = AiService();
-
   final FireAuthService _authService = FireAuthService();
+
+  String? roomId;
 
   FocusNode focusNode = FocusNode();
 
   void scrollDownMessage() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.jumpTo(
           _scrollController.position.maxScrollExtent,
@@ -83,7 +87,22 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
-        title: Text(widget.receiverEmail.split('@').first),
+        title: Row(
+          children: [
+            Text(widget.receiverEmail.split('@').first),
+            Flexible(
+              flex: 1,
+              child: Container(),
+            ),
+            IconButton(
+                onPressed: () async {
+                  
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => VideoCallPage()));
+                },
+                icon: const Icon(Icons.video_call)),
+          ],
+        ),
       ),
       body: Column(children: [
         Expanded(child: _messageList()),
@@ -162,7 +181,7 @@ class _ChatPageState extends State<ChatPage> {
                                     child: const Text("Close"))
                               ],
                               title: const Text("AI Response"),
-                              content: response != null 
+                              content: response != null
                                   ? Text(response!)
                                   : const Text("No response yet!"),
                             ));

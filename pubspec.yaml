@@ -39,6 +39,8 @@ dependencies:
   firebase_auth: ^4.17.7
   cloud_firestore: ^4.15.7
   http: ^1.2.0
+  flutter_webrtc: ^0.9.48+hotfix.1
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
