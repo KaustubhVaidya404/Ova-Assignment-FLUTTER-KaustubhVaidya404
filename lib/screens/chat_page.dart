@@ -73,7 +73,9 @@ class _ChatPageState extends State<ChatPage> {
 
   void aiAssist(String message) async {
     if (message.isNotEmpty) {
-      response = await _aiService.promptRequest(message);
+      setState(() async {
+        response = await _aiService.promptRequest(message);
+      });
       //print(response);
       //_chatService.sendMessage(response!, widget.receiverId);
     }
@@ -96,7 +98,6 @@ class _ChatPageState extends State<ChatPage> {
             ),
             IconButton(
                 onPressed: () async {
-                  
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => VideoCallPage()));
                 },
@@ -165,26 +166,38 @@ class _ChatPageState extends State<ChatPage> {
               child: IconButton(
                   onPressed: () async {
                     aiAssist(_messageController.text);
-                    await showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      _chatService.sendMessage(
-                                          response!, widget.receiverId);
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Generate')),
-                                TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text("Close"))
-                              ],
-                              title: const Text("AI Response"),
-                              content: response != null
-                                  ? Text(response!)
-                                  : const Text("No response yet!"),
-                            ));
+                    Future.delayed(const Duration(milliseconds: 1000), () async {
+                      await showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        _chatService.sendMessage(
+                                            response!, widget.receiverId);
+                                        setState(() {
+                                          response = null;
+                                        });
+                                        Navigator.pop(context);
+                                        _messageController.clear();
+                                      },
+                                      child: const Text('Generate')),
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        _messageController.clear();
+                                        setState(() {
+                                          response = null;
+                                        });
+                                      },
+                                      child: const Text("Close"))
+                                ],
+                                title: const Text("AI Response"),
+                                content: response != null
+                                    ? Text(response!)
+                                    : const Text("No response yet!"),
+                              ));
+                    });
                   },
                   icon: const Icon(Icons.rocket))),
           Container(

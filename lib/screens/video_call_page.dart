@@ -67,7 +67,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
           const SizedBox(
             height: 8,
           ),
-          Row(children: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Container(
               padding: const EdgeInsets.all(8.0),
               margin: const EdgeInsets.all(8.0),
@@ -82,19 +82,17 @@ class _VideoCallPageState extends State<VideoCallPage> {
             const SizedBox(
               width: 2,
             ),
-            Container(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    _signaling.joinRoom(roomId!.trim(), _remoteRenderer);
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: endCallButtonColor),
-                  child: const Text("join")),
-            ),
-            const SizedBox(
-              width: 2,
-            ),
+            // Container(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: ElevatedButton(
+            //       onPressed: () {
+            //         _signaling.joinRoom(roomId!.trim(), _remoteRenderer);
+            //       },
+            //       child: const Text("join")),
+            // ),
+            // const SizedBox(
+            //   width: 2,
+            // ),
             Container(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
