@@ -77,6 +77,6 @@ Provide instructions on how to use the application, including any CRUD operation
 
 ## License
 
-Explain the license you're using, for example, the MIT license.
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 ---
