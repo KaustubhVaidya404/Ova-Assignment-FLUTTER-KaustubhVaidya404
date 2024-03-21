@@ -49,19 +49,26 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _userList(Map<String, dynamic> user, BuildContext context) {
+    print(
+        "======================================${user}====================================");
     if (user['email'] != fireAuthService.getCurrentUser()!.email) {
-      return UserTile(
-        text: user['email'],
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatPage(
-                        receiverEmail: user['email'],
-                        receiverId: user['uid'],
-                      )));
-        },
-      );
+      List<dynamic> array = user['connections'];
+      if (array.contains(fireAuthService.getCurrentUser()!.uid)) {
+        return UserTile(
+          text: user['email'],
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChatPage(
+                          receiverEmail: user['email'],
+                          receiverId: user['uid'],
+                        )));
+          },
+        );
+      } else {
+        return const SizedBox();
+      }
     } else {
       return const SizedBox();
     }
