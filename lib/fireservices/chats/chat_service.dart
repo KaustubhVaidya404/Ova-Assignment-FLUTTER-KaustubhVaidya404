@@ -16,12 +16,12 @@ class AiService {
   Future<String?> promptRequest(String prompt) async {
     try {
       RequestModel requestModel = RequestModel(
-          model: "gpt-3.5-turbo",
+          model: "gpt-4",
           messages: [
             AiMessage(
-                role: "user",
+                role: "system",
                 content:
-                    "improve the message for sending to someone - $prompt")
+                    prompt)
           ],
           maxTokens: 150);
       if (prompt.isEmpty) {

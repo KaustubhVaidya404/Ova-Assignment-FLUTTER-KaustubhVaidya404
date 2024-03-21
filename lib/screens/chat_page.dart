@@ -7,6 +7,7 @@ import 'package:chatlily/screens/video_call_page.dart';
 import 'package:chatlily/webrtcservices/signaling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 class ChatPage extends StatefulWidget {
@@ -166,7 +167,7 @@ class _ChatPageState extends State<ChatPage> {
               child: IconButton(
                   onPressed: () async {
                     aiAssist(_messageController.text);
-                    Future.delayed(const Duration(milliseconds: 1000), () async {
+                    Future.delayed(const Duration(milliseconds: 3000), () async {
                       await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
@@ -210,3 +211,5 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
+
+
